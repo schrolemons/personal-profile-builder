@@ -102,6 +102,8 @@ class HTMLGenerator:
                 blocks_html += self._render_link_group(block)
             elif block_type in ['gallery_group']:
                 blocks_html += self._render_gallery_group(block)
+            elif block_type in ['friends_group']:
+                blocks_html += self._render_friends_group(block)
             elif block_type in ['content']:
                 blocks_html += self._render_content_block(block)
         
@@ -109,11 +111,12 @@ class HTMLGenerator:
         if closing_text:
             closing_icon_rendered = self._render_icon(closing_icon)
             if closing_icon.startswith('fa-'):
-                closing_icon_rendered = closing_icon_rendered.replace('"><i', ' text-yellow-400"><i')
-                closing_icon_rendered = closing_icon_rendered.replace('i>', 'i text-yellow-400">')
+                closing_icon_rendered = closing_icon_rendered.replace('"><i', ' dynamic-accent-text"><i')
+            else:
+                closing_icon_rendered = f'<span class="dynamic-accent-text">{closing_icon_rendered}</span>'
             closing_html = f'''
                 <div class="text-center py-6">
-                    <p class="text-2xl font-bold text-blue-700">
+                    <p class="text-2xl font-bold dynamic-primary-text">
                         {closing_icon_rendered}
                         {closing_text}
                         {closing_icon_rendered}
@@ -160,36 +163,36 @@ class HTMLGenerator:
         
         icon_rendered = self._render_icon(icon)
         if icon.startswith('fa-'):
-            icon_container = f'<span class="w-8 h-8 bg-yellow-400 rounded-full flex items-center justify-center mr-3 text-white">{icon_rendered}</span>'
+            icon_container = f'<span class="w-8 h-8 dynamic-accent rounded-full flex items-center justify-center mr-3 text-white">{icon_rendered}</span>'
         else:
-            icon_container = f'<span class="w-8 h-8 bg-yellow-400 rounded-full flex items-center justify-center mr-3 text-white text-lg">{icon_rendered}</span>'
+            icon_container = f'<span class="w-8 h-8 dynamic-accent rounded-full flex items-center justify-center mr-3 text-white text-lg">{icon_rendered}</span>'
         
         if block_type == 'personality_group':
-            elements_html += f'<div class="bg-gradient-to-r from-blue-50 to-blue-100 rounded-2xl p-6 border-2 border-blue-300"><h3 class="font-bold text-blue-700 text-xl mb-4 flex items-center">{icon_container}{title}</h3>'
+            elements_html += f'<div class="dynamic-primary-lighter rounded-2xl p-6 border-2 dynamic-primary-border"><h3 class="font-bold dynamic-primary-text text-xl mb-4 flex items-center">{icon_container}{title}</h3>'
             elements_html += self._render_personality_grid(items)
             elements_html += '</div>'
         elif block_type == 'hobby_group':
-            elements_html += f'<div class="bg-gradient-to-r from-blue-50 to-blue-100 rounded-2xl p-6 border-2 border-blue-300"><h3 class="font-bold text-blue-700 text-xl mb-4 flex items-center">{icon_container}{title}</h3><div class="grid grid-cols-1 md:grid-cols-2 gap-4">'
+            elements_html += f'<div class="dynamic-primary-lighter rounded-2xl p-6 border-2 dynamic-primary-border"><h3 class="font-bold dynamic-primary-text text-xl mb-4 flex items-center">{icon_container}{title}</h3><div class="grid grid-cols-1 md:grid-cols-2 gap-4">'
             for item in items:
                 item_icon = item.get('icon', 'fa-star')
                 item_title = item.get('title', '')
                 item_subtitle = item.get('subtitle', '')
                 item_desc = item.get('description', '')
                 escaped_desc = item_desc.replace("'", "\\'").replace('"', '\\"')
-                elements_html += f'''<div class="flex items-center gap-4 p-4 bg-white rounded-xl border-2 border-blue-200 hover:border-blue-400 transition-all bounce-scale-item cursor-pointer" onclick="openHobbyModal('{item_title}', '{item_icon}', '{escaped_desc}')">
+                elements_html += f"""<div class="box-card flex items-center gap-4 p-4 bg-white rounded-xl border-2 dynamic-primary-border-light transition-all bounce-scale-item cursor-pointer" onclick="openHobbyModal('{item_title}', '{item_icon}', '{escaped_desc}')">
                     <span class="cute-tag shrink-0">{item_title}</span>
                     <span class="text-slate-700">{item_subtitle}</span>
-                </div>'''
+                </div>"""
             elements_html += '</div></div>'
         elif block_type == 'red_line_group':
             if not items:
                 return ''
-            elements_html += f'<div class="bg-gradient-to-r from-blue-50 to-blue-100 rounded-2xl p-6 border-2 border-blue-300"><h3 class="font-bold text-blue-700 text-xl mb-4 flex items-center">{icon_container}{title}</h3><ol class="space-y-3">'
+            elements_html += f'<div class="dynamic-primary-lighter rounded-2xl p-6 border-2 dynamic-primary-border"><h3 class="font-bold dynamic-primary-text text-xl mb-4 flex items-center">{icon_container}{title}</h3><ol class="space-y-3">'
             for item in items:
                 item_icon = item.get('icon', 'fa-exclamation-triangle')
                 item_icon_rendered = self._render_icon(item_icon)
                 if item_icon.startswith('fa-'):
-                    item_icon_rendered = item_icon_rendered.replace('"><i', ' text-yellow-500 mr-3"><i')
+                    item_icon_rendered = item_icon_rendered.replace('"><i', ' dynamic-accent-text mr-3"><i')
                 else:
                     item_icon_rendered = f'<span class="mr-3">{item_icon_rendered}</span>'
                 item_content = self._parse_content(item.get('content', ''))
@@ -201,12 +204,12 @@ class HTMLGenerator:
         elif block_type == 'your_red_line_group':
             if not items:
                 return ''
-            elements_html += f'<div class="bg-gradient-to-r from-blue-50 to-blue-100 rounded-2xl p-6 border-2 border-blue-300"><h3 class="font-bold text-blue-700 text-xl mb-4 flex items-center">{icon_container}{title}</h3><ol class="space-y-3">'
+            elements_html += f'<div class="dynamic-primary-lighter rounded-2xl p-6 border-2 dynamic-primary-border"><h3 class="font-bold dynamic-primary-text text-xl mb-4 flex items-center">{icon_container}{title}</h3><ol class="space-y-3">'
             for item in items:
                 item_icon = item.get('icon', 'fa-info-circle')
                 item_icon_rendered = self._render_icon(item_icon)
                 if item_icon.startswith('fa-'):
-                    item_icon_rendered = item_icon_rendered.replace('"><i', ' text-yellow-500 mr-3"><i')
+                    item_icon_rendered = item_icon_rendered.replace('"><i', ' dynamic-accent-text mr-3"><i')
                 else:
                     item_icon_rendered = f'<span class="mr-3">{item_icon_rendered}</span>'
                 item_content = self._parse_content(item.get('content', ''))
@@ -231,11 +234,11 @@ class HTMLGenerator:
             item_icon_rendered = self._render_icon(item_icon)
             if not item_icon.startswith('fa-'):
                 item_icon_rendered = f'<span class="text-xl">{item_icon_rendered}</span>'
-            grid_html += f'''<div class="bg-white rounded-xl p-4 border-2 border-blue-200 hover:border-blue-400 transition-all cursor-pointer bounce-scale-item" onclick='openPersonalityModal("{item_title}", "{item_icon}", "{escaped_desc}")'>
-                <div class="w-12 h-12 bg-gradient-to-br from-blue-400 to-blue-600 rounded-xl flex items-center justify-center mx-auto mb-3 text-white">
+            grid_html += f'''<div class="box-card bg-white rounded-xl p-4 border-2 dynamic-primary-border-light transition-all cursor-pointer bounce-scale-item" onclick='openPersonalityModal("{item_title}", "{item_icon}", "{escaped_desc}")'>
+                <div class="w-12 h-12 dynamic-primary rounded-xl flex items-center justify-center mx-auto mb-3 text-white">
                     {item_icon_rendered}
                 </div>
-                <h4 class="font-bold text-blue-700 mb-1 text-center">{item_title}</h4>
+                <h4 class="font-bold dynamic-primary-text mb-1 text-center">{item_title}</h4>
                 <p class="text-sm text-slate-600 text-center">{item_subtitle}</p>
             </div>'''
         grid_html += '</div>'
@@ -250,19 +253,19 @@ class HTMLGenerator:
         
         icon_rendered = self._render_icon(icon)
         if icon.startswith('fa-'):
-            icon_container = f'<span class="w-8 h-8 bg-yellow-400 rounded-full flex items-center justify-center mr-3 text-white">{icon_rendered}</span>'
+            icon_container = f'<span class="w-8 h-8 dynamic-accent rounded-full flex items-center justify-center mr-3 text-white">{icon_rendered}</span>'
         else:
-            icon_container = f'<span class="w-8 h-8 bg-yellow-400 rounded-full flex items-center justify-center mr-3 text-white text-lg">{icon_rendered}</span>'
+            icon_container = f'<span class="w-8 h-8 dynamic-accent rounded-full flex items-center justify-center mr-3 text-white text-lg">{icon_rendered}</span>'
         
         if intro_link:
             intro_link_icon = intro_link.get('icon', 'fa-star')
             intro_link_icon_rendered = self._render_icon(intro_link_icon)
-            link_html = f'''<a href="{intro_link.get('url', '#')}" target="_blank" class="inline-flex items-center mt-4 cute-link font-semibold bg-white px-4 py-2 rounded-full border-2 border-blue-200 hover:border-blue-400">
+            link_html = f'''<a href="{intro_link.get('url', '#')}" target="_blank" class="box-card inline-flex items-center mt-4 cute-link font-semibold bg-white px-4 py-2 rounded-full border-2 dynamic-primary-border-light transition-all">
                 {intro_link_icon_rendered}{' ' if intro_link_icon.startswith('fa-') else '&nbsp;'}{intro_link.get('title', '')}
             </a>'''
         
-        return f'''<div class="bg-gradient-to-r from-blue-50 to-blue-100 rounded-2xl p-6 border-2 border-blue-300">
-            <h3 class="font-bold text-blue-700 text-xl mb-4 flex items-center">
+        return f'''<div class="dynamic-primary-lighter rounded-2xl p-6 border-2 dynamic-primary-border">
+            <h3 class="font-bold dynamic-primary-text text-xl mb-4 flex items-center">
                 {icon_container}
                 {title}
             </h3>
@@ -281,30 +284,30 @@ class HTMLGenerator:
         links_html = ''
         icon_rendered = self._render_icon(icon)
         if icon.startswith('fa-'):
-            icon_container = f'<span class="w-8 h-8 bg-yellow-400 rounded-full flex items-center justify-center mr-3 text-white">{icon_rendered}</span>'
+            icon_container = f'<span class="w-8 h-8 dynamic-accent rounded-full flex items-center justify-center mr-3 text-white">{icon_rendered}</span>'
         else:
-            icon_container = f'<span class="w-8 h-8 bg-yellow-400 rounded-full flex items-center justify-center mr-3 text-white text-lg">{icon_rendered}</span>'
+            icon_container = f'<span class="w-8 h-8 dynamic-accent rounded-full flex items-center justify-center mr-3 text-white text-lg">{icon_rendered}</span>'
         
         for item in items:
             item_icon = item.get('icon', 'fa-star')
             item_icon_rendered = self._render_icon(item_icon)
             if not item_icon.startswith('fa-'):
                 item_icon_rendered = f'<span class="text-xl">{item_icon_rendered}</span>'
-            links_html += f'''<a href="{item.get('url', '#')}" target="_blank" class="bg-gradient-to-r from-yellow-100 to-orange-100 hover:from-yellow-200 hover:to-orange-200 p-6 rounded-2xl border-3 border-yellow-300 transition-all hover:-translate-y-1 group">
+            links_html += f'''<a href="{item.get('url', '#')}" target="_blank" class="box-card bg-white hover:dynamic-accent-shadow p-6 rounded-2xl border-2 dynamic-accent-border-light transition-all hover:-translate-y-1 group">
                 <div class="flex items-center">
-                    <div class="w-12 h-12 bg-gradient-to-br from-yellow-400 to-orange-400 rounded-xl flex items-center justify-center mr-4 text-white group-hover:scale-110 transition-transform">
+                    <div class="w-12 h-12 dynamic-accent rounded-xl flex items-center justify-center mr-4 text-white group-hover:scale-110 transition-transform">
                         {item_icon_rendered}
                     </div>
                     <div>
-                        <h4 class="font-bold text-yellow-800">{item.get('title', '')}</h4>
+                        <h4 class="font-bold dynamic-accent-text">{item.get('title', '')}</h4>
                         <p class="text-sm text-slate-600">{item.get('subtitle', '')}</p>
                     </div>
-                    <i class="fa fa-arrow-right ml-auto text-yellow-500 group-hover:translate-x-1 transition-transform"></i>
+                    <i class="fa fa-arrow-right ml-auto dynamic-accent-text group-hover:translate-x-1 transition-transform"></i>
                 </div>
             </a>'''
         
-        return f'''<div class="bg-gradient-to-r from-yellow-50 to-orange-100 rounded-2xl p-6 border-2 border-yellow-300">
-            <h3 class="font-bold text-yellow-800 text-xl mb-4 flex items-center">
+        return f'''<div class="dynamic-primary-lighter rounded-2xl p-6 border-2 dynamic-accent-border">
+            <h3 class="font-bold dynamic-accent-text text-xl mb-4 flex items-center">
                 {icon_container}
                 {title}
             </h3>
@@ -330,9 +333,9 @@ class HTMLGenerator:
         
         icon_rendered = self._render_icon(icon)
         if icon.startswith('fa-'):
-            icon_container = f'<span class="w-8 h-8 bg-gradient-to-br from-blue-400 to-cyan-400 rounded-full flex items-center justify-center mr-3 text-white">{icon_rendered}</span>'
+            icon_container = f'<span class="w-8 h-8 dynamic-accent rounded-full flex items-center justify-center mr-3 text-white">{icon_rendered}</span>'
         else:
-            icon_container = f'<span class="w-8 h-8 bg-gradient-to-br from-blue-400 to-cyan-400 rounded-full flex items-center justify-center mr-3 text-white text-lg">{icon_rendered}</span>'
+            icon_container = f'<span class="w-8 h-8 dynamic-accent rounded-full flex items-center justify-center mr-3 text-white text-lg">{icon_rendered}</span>'
         
         dots_html = ''
         for i, _ in enumerate(slides):
@@ -351,7 +354,7 @@ class HTMLGenerator:
             </div>
             <div class="monitor-content">
                 <img id="{gallery_id}-carousel-img" src="{first_slide.get('src', '')}" alt="{first_slide.get('alt', '')}" class="w-full h-64 md:h-80 object-contain rounded-lg cursor-zoom-in" onclick="openLightbox(this.src, this.alt)">
-                <div id="{gallery_id}-carousel-caption" class="absolute bottom-4 left-1/2 -translate-x-1/2 bg-white/90 px-4 py-2 rounded-full border-2 border-blue-300 font-bold text-blue-700">
+                <div id="{gallery_id}-carousel-caption" class="absolute bottom-4 left-1/2 -translate-x-1/2 bg-white/90 px-4 py-2 rounded-full border-2 dynamic-primary-border font-bold dynamic-primary-text">
                     {first_slide.get('caption', '')}
                 </div>
                 <button onclick="prevSlide(\'{gallery_id}\')" class="cute-nav-btn absolute left-4 top-1/2 -translate-y-1/2">
@@ -363,19 +366,81 @@ class HTMLGenerator:
             </div>
             <div class="monitor-footer">
                 <div class="flex items-center gap-2">
-                    <i class="fa fa-camera text-yellow-500"></i>
-                    <span class="font-bold text-blue-700" id="{gallery_id}-feed-counter">001/{str(len(slides)).zfill(3)}</span>
+                    <i class="fa fa-camera dynamic-accent-text"></i>
+                    <span class="font-bold dynamic-primary-text" id="{gallery_id}-feed-counter">001/{str(len(slides)).zfill(3)}</span>
                 </div>
                 <div class="flex gap-2">{dots_html}</div>
             </div>
         </div>'''
         
-        return f'''<div class="bg-gradient-to-r from-green-50 to-blue-50 rounded-2xl p-6 border-2 border-blue-300">
-            <h3 class="font-bold text-blue-700 text-xl mb-4 flex items-center">
+        return f'''<div class="dynamic-primary-lighter rounded-2xl p-6 border-2 dynamic-primary-border">
+            <h3 class="font-bold dynamic-primary-text text-xl mb-4 flex items-center">
                 {icon_container}
                 {title}
             </h3>
             {monitor_html}
+        </div>'''
+
+    def _render_friends_group(self, block):
+        icon = block.get('icon', 'fa-heart')
+        title = block.get('title', '')
+        categories = block.get('categories', [])
+
+        if not categories:
+            return ''
+
+        icon_rendered = self._render_icon(icon)
+        if icon.startswith('fa-'):
+            icon_container = f'<span class="w-8 h-8 dynamic-accent rounded-full flex items-center justify-center mr-3 text-white">{icon_rendered}</span>'
+        else:
+            icon_container = f'<span class="w-8 h-8 dynamic-accent rounded-full flex items-center justify-center mr-3 text-white text-lg">{icon_rendered}</span>'
+
+        categories_html = ''
+        for category in categories:
+            cat_name = category.get('category', '')
+            cat_icon = category.get('icon', '')
+            friends = category.get('friends', [])
+
+            if not friends:
+                continue
+
+            cat_icon_html = ''
+            if cat_icon:
+                cat_icon_html = f'<span class="mr-1">{cat_icon}</span>'
+
+            friends_html = ''
+            for friend in friends:
+                friend_name = friend.get('name', '')
+                friend_url = friend.get('url', '')
+                friend_avatar = friend.get('avatar', '')
+
+                avatar_html = ''
+                if friend_avatar:
+                    avatar_html = f'<img src="{friend_avatar}" alt="{friend_name}" class="friend-avatar-img" onerror="this.style.display=\'none\'">'
+
+                if friend_url:
+                    friends_html += f'<a href="{friend_url}" target="_blank" class="box-card friend-tag friend-tag-link bg-white dynamic-accent-border-light dynamic-accent-text border-2">{avatar_html}<span>@{friend_name}</span></a>'
+                else:
+                    friends_html += f'<span class="box-card friend-tag bg-white dynamic-primary-border-light dynamic-primary-text border-2">{avatar_html}<span>@{friend_name}</span></span>'
+
+            categories_html += f'''<div class="friend-category">
+                <div class="friend-category-label">
+                    <span class="friend-category-dot dynamic-accent"></span>
+                    <span class="font-semibold dynamic-accent-text">{cat_icon_html}{cat_name}</span>
+                </div>
+                <div class="friend-tags">
+                    {friends_html}
+                </div>
+            </div>'''
+
+        return f'''<div class="friends-group-container dynamic-primary-lighter dynamic-primary-border border-2 rounded-2xl p-6">
+            <h3 class="font-bold dynamic-primary-text text-xl mb-5 flex items-center">
+                {icon_container}
+                {title}
+            </h3>
+            <div class="space-y-4">
+                {categories_html}
+            </div>
         </div>'''
 
     def _render_final_warning(self):
@@ -398,12 +463,12 @@ class HTMLGenerator:
         
         return f'''<section id="final-warning" class="info-box final-warning">
             <div class="flex items-start">
-                <div class="w-12 h-12 bg-gradient-to-br from-yellow-400 to-orange-400 rounded-xl flex items-center justify-center mr-4 text-white floating-star">
+                <div class="w-12 h-12 dynamic-accent rounded-xl flex items-center justify-center mr-4 text-white floating-star">
                     {icon_rendered}
                 </div>
                 <div class="flex-1">
-                    <h3 class="text-xl font-bold text-yellow-800 mb-3">{title}</h3>
-                    <p class="text-yellow-900">
+                    <h3 class="text-xl font-bold dynamic-accent-text mb-3">{title}</h3>
+                    <p class="dynamic-accent-text">
                         <span id="typing-content"></span>
                         <span class="typing-cursor"></span>
                     </p>
@@ -419,7 +484,7 @@ class HTMLGenerator:
         for block in blocks:
             content = block.get('content', '')
             links_html += f'''<p class="text-slate-700 mb-2">
-                <i class="fa fa-star text-yellow-400"></i> {self._parse_content(content)}
+                <i class="fa fa-star dynamic-accent-text"></i> {self._parse_content(content)}
             </p>'''
         
         display = self.config.get('display', {})
@@ -429,11 +494,11 @@ class HTMLGenerator:
         return f'''<footer class="text-center mt-12 pb-8">
             <div class="cute-divider"><i class="fa fa-link"></i></div>
             {links_html}
-            <div class="mt-6 pt-6 border-t-2 border-dashed border-yellow-300">
+            <div class="mt-6 pt-6 border-t-2 border-dashed dynamic-accent-border">
                 <p class="text-slate-600 text-sm font-mono">
                     <i class="fa fa-heart text-pink-400"></i>
                     SYSTEM VERSION {version} · POWERED BY {powered_by}
-                    <i class="fa fa-heart text-yellow-400"></i>
+                    <i class="fa fa-heart dynamic-accent-text"></i>
                 </p>
             </div>
         </footer>'''
@@ -485,14 +550,14 @@ class HTMLGenerator:
                     </div>
                 </div>
             </div>
-            <div id="lightbox" class="fixed inset-0 bg-yellow-100/95 z-50 hidden items-center justify-center p-4" onclick="closeLightbox()">
+            <div id="lightbox" class="fixed inset-0 bg-black/50 z-50 hidden items-center justify-center p-4" onclick="closeLightbox()">
                 <div class="relative max-w-4xl max-h-full">
-                    <button onclick="closeLightbox()" class="absolute -top-14 right-0 text-yellow-600 hover:text-yellow-800 transition-all text-3xl bg-white rounded-full w-12 h-12 flex items-center justify-center border-3 border-yellow-400 shadow-lg">
+                    <button onclick="closeLightbox()" class="absolute -top-14 right-0 dynamic-accent-text hover:opacity-80 transition-all text-3xl bg-white rounded-full w-12 h-12 flex items-center justify-center border-2 dynamic-accent-border shadow-lg">
                         <i class="fa fa-times"></i>
                     </button>
-                    <div class="bg-white rounded-3xl p-4 border-4 border-yellow-300 shadow-2xl">
+                    <div class="bg-white rounded-3xl p-4 border-2 dynamic-accent-border shadow-2xl">
                         <img id="lightbox-img" src="" alt="" class="max-w-full max-h-[70vh] object-contain rounded-2xl">
-                        <p id="lightbox-caption" class="text-center text-yellow-700 mt-4 font-bold text-lg"></p>
+                        <p id="lightbox-caption" class="text-center dynamic-accent-text mt-4 font-bold text-lg"></p>
                     </div>
                 </div>
             </div>
@@ -569,6 +634,13 @@ class HTMLGenerator:
             
             return f'#{r:02x}{g:02x}{b:02x}'
         
+        def hex_to_rgb(color):
+            color = color.lstrip('#')
+            r = int(color[0:2], 16)
+            g = int(color[2:4], 16)
+            b = int(color[4:6], 16)
+            return f'{r}, {g}, {b}'
+        
         day_primary_light = lighten_color(day_primary, 50)
         day_primary_lighter = lighten_color(day_primary, 85)
         day_primary_ultralight = lighten_color(day_primary, 88)
@@ -579,9 +651,19 @@ class HTMLGenerator:
         day_accent_dark = darken_color(day_accent, 30)
         
         night_primary_light = lighten_color(night_primary, 30)
+        night_primary_lighter = lighten_color(night_primary, 85)
         night_primary_dark = darken_color(night_primary, 20)
         night_accent_light = lighten_color(night_accent, 30)
+        night_accent_lighter = lighten_color(night_accent, 85)
         night_accent_dark = darken_color(night_accent, 20)
+        
+        night_primary_ultralight = lighten_color(night_primary, 88)
+        night_accent_ultralight = lighten_color(night_accent, 88)
+        
+        day_accent_rgb = hex_to_rgb(day_accent)
+        day_primary_rgb = hex_to_rgb(day_primary)
+        night_accent_rgb = hex_to_rgb(night_accent)
+        night_primary_rgb = hex_to_rgb(night_primary)
         
         # 只渲染toc中定义的且存在配置的板块
         for item in self.config.get('toc', []):
@@ -609,7 +691,7 @@ class HTMLGenerator:
         {self.css_content}
         
         body {{
-            background: linear-gradient(135deg, #fef3c7 0%, #dbeafe 50%, #fef3c7 100%);
+            background: linear-gradient(135deg, {day_accent_ultralight} 0%, {day_primary_ultralight} 50%, {day_accent_ultralight} 100%);
         }}
         
         body.night-mode {{
@@ -621,6 +703,7 @@ class HTMLGenerator:
         .dynamic-primary-lighter {{ background: {day_primary_lighter}; }}
         .dynamic-primary-dark {{ background: {day_primary_dark}; }}
         .dynamic-primary-border {{ border-color: {day_primary}; }}
+        .dynamic-primary-border-light {{ border-color: {day_primary_light}; }}
         .dynamic-primary-text {{ color: {day_primary}; }}
         .dynamic-primary-shadow {{ box-shadow: 0 8px 0 {day_primary_dark}; }}
         
@@ -629,6 +712,7 @@ class HTMLGenerator:
         .dynamic-accent-lighter {{ background: {day_accent_lighter}; }}
         .dynamic-accent-dark {{ background: {day_accent_dark}; }}
         .dynamic-accent-border {{ border-color: {day_accent}; }}
+        .dynamic-accent-border-light {{ border-color: {day_accent_light}; }}
         .dynamic-accent-text {{ color: {day_accent}; }}
         .dynamic-accent-shadow {{ box-shadow: 0 8px 0 {day_accent_dark}; }}
         
@@ -660,15 +744,19 @@ class HTMLGenerator:
         
         body.night-mode .dynamic-primary {{ background: {night_primary}; }}
         body.night-mode .dynamic-primary-light {{ background: {night_primary_light}; }}
+        body.night-mode .dynamic-primary-lighter {{ background: {night_primary_lighter}; }}
         body.night-mode .dynamic-primary-dark {{ background: {night_primary_dark}; }}
         body.night-mode .dynamic-primary-border {{ border-color: {night_primary}; }}
+        body.night-mode .dynamic-primary-border-light {{ border-color: {night_primary_light}; }}
         body.night-mode .dynamic-primary-text {{ color: {night_primary}; }}
         body.night-mode .dynamic-primary-shadow {{ box-shadow: 0 8px 0 {night_primary_dark}; }}
         
         body.night-mode .dynamic-accent {{ background: {night_accent}; }}
         body.night-mode .dynamic-accent-light {{ background: {night_accent_light}; }}
+        body.night-mode .dynamic-accent-lighter {{ background: {night_accent_lighter}; }}
         body.night-mode .dynamic-accent-dark {{ background: {night_accent_dark}; }}
         body.night-mode .dynamic-accent-border {{ border-color: {night_accent}; }}
+        body.night-mode .dynamic-accent-border-light {{ border-color: {night_accent_light}; }}
         body.night-mode .dynamic-accent-text {{ color: {night_accent}; }}
         body.night-mode .dynamic-accent-shadow {{ box-shadow: 0 8px 0 {night_accent_dark}; }}
         
@@ -683,13 +771,606 @@ class HTMLGenerator:
         }}
         
         body.night-mode .highlight-primary {{
-            background: linear-gradient(120deg, #4c1d95 0%, #7c3aed 100%) !important;
-            color: #e0e7ff !important;
+            background: linear-gradient(120deg, {night_primary_lighter} 0%, {night_primary_light} 100%) !important;
+            color: #fecaca !important;
         }}
         
         body.night-mode .highlight-accent {{
-            background: linear-gradient(120deg, #4c1d95 0%, #7c3aed 100%) !important;
+            background: linear-gradient(120deg, {night_accent_lighter} 0%, {night_accent_light} 100%) !important;
+            color: #cffafe !important;
+        }}
+        
+        body.night-mode .highlight-blue {{
+            background: linear-gradient(120deg, {night_primary_lighter} 0%, {night_primary_light} 100%) !important;
+            color: #fecaca !important;
+        }}
+        
+        body.night-mode .highlight-yellow {{
+            background: linear-gradient(120deg, {night_accent_lighter} 0%, {night_accent_light} 100%) !important;
+            color: #cffafe !important;
+        }}
+        
+        body.night-mode .highlight-green,
+        body.night-mode .highlight-purple,
+        body.night-mode .highlight-orange,
+        body.night-mode .highlight-pink {{
+            background: linear-gradient(120deg, {night_accent_lighter} 0%, {night_accent_light} 100%) !important;
             color: #e0e7ff !important;
+        }}
+        
+        body.night-mode .sparkle {{
+            color: {night_accent} !important;
+        }}
+        
+        body.night-mode .dynamic-bg-mixed-gradient {{
+            background: linear-gradient(135deg, #2a1f2f 0%, #1f1a2f 100%) !important;
+        }}
+        
+        body.night-mode .bg-white\\/60 {{
+            background: rgba(30, 30, 63, 0.8) !important;
+        }}
+        
+        body.night-mode .typing-cursor {{
+            background: {night_accent} !important;
+        }}
+        
+        .dynamic-accent-lighter-night {{ background: {night_accent_lighter}; }}
+        
+        .cute-card {{
+            background: linear-gradient(145deg, #ffffff 0%, {day_accent_ultralight} 100%);
+            border: 3px solid {day_accent};
+            box-shadow: 0 8px 0 {day_accent_dark}, 0 12px 24px rgba({day_accent_rgb}, 0.2);
+        }}
+        .cute-card:hover {{
+            box-shadow: 0 12px 0 {day_accent_dark}, 0 16px 32px rgba({day_accent_rgb}, 0.3);
+        }}
+        body.night-mode .cute-card {{
+            background: linear-gradient(145deg, #1e1e3f 0%, #2a2a4a 100%) !important;
+            border: 3px solid {night_accent} !important;
+            box-shadow: 0 8px 0 {night_accent_dark}, 0 12px 24px rgba({night_accent_rgb}, 0.3) !important;
+        }}
+        body.night-mode .cute-card:hover {{
+            box-shadow: 0 12px 0 {night_accent_dark}, 0 16px 32px rgba({night_accent_rgb}, 0.4) !important;
+        }}
+        
+        .cute-section-title {{
+            background: linear-gradient(90deg, {day_primary} 0%, {day_primary_dark} 100%);
+            box-shadow: 0 4px 0 {day_primary_dark};
+        }}
+        .cute-section-title-yellow {{
+            background: linear-gradient(90deg, {day_accent} 0%, {day_accent_dark} 100%);
+            box-shadow: 0 4px 0 {day_accent_dark};
+        }}
+        body.night-mode .cute-section-title {{
+            background: linear-gradient(90deg, {night_primary} 0%, {night_primary_dark} 100%) !important;
+            box-shadow: 0 4px 0 {night_primary_dark} !important;
+        }}
+        body.night-mode .cute-section-title-yellow {{
+            background: linear-gradient(90deg, {night_accent} 0%, {night_accent_dark} 100%) !important;
+            box-shadow: 0 4px 0 {night_accent_dark} !important;
+        }}
+        
+        .cute-tag {{
+            background: linear-gradient(135deg, {day_accent_lighter} 0%, {day_accent_light} 100%);
+            border-color: {day_accent};
+            color: {day_accent_dark};
+        }}
+        .cute-tag-blue {{
+            background: linear-gradient(135deg, {day_primary_lighter} 0%, {day_primary_light} 100%);
+            border-color: {day_primary};
+            color: {day_primary_dark};
+        }}
+        body.night-mode .cute-tag {{
+            background: linear-gradient(135deg, #2a2a4a 0%, #3d3d6a 100%) !important;
+            border-color: {night_accent} !important;
+            color: #ddd6fe !important;
+        }}
+        body.night-mode .cute-tag-blue {{
+            background: linear-gradient(135deg, #2a2a4a 0%, #3d3d6a 100%) !important;
+            border-color: {night_primary} !important;
+            color: #ddd6fe !important;
+        }}
+        
+        .cute-header {{
+            background: linear-gradient(135deg, {day_accent} 0%, {day_accent_dark} 50%, {day_primary} 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }}
+        body.night-mode .cute-header {{
+            background: linear-gradient(135deg, {night_accent} 0%, {night_accent_dark} 50%, {night_primary} 100%) !important;
+            -webkit-background-clip: text !important;
+            -webkit-text-fill-color: transparent !important;
+            background-clip: text !important;
+        }}
+        
+        .cute-link {{
+            color: {day_primary};
+        }}
+        .cute-link::after {{
+            background: linear-gradient(90deg, {day_accent}, {day_primary});
+        }}
+        body.night-mode .cute-link {{
+            color: {night_accent} !important;
+        }}
+        body.night-mode .cute-link::after {{
+            background: linear-gradient(90deg, {night_accent}, {night_primary}) !important;
+        }}
+        
+        .moxue-avatar {{
+            border-color: {day_accent} !important;
+            box-shadow: 0 8px 0 {day_accent_dark}, 0 12px 24px rgba({day_accent_rgb}, 0.35) !important;
+        }}
+        body.night-mode .moxue-avatar {{
+            border-color: {night_accent} !important;
+            box-shadow: 0 8px 0 {night_accent_dark}, 0 12px 24px rgba({night_accent_rgb}, 0.35) !important;
+        }}
+        
+        .section-close {{
+            background: {day_accent_lighter};
+            border: 2px solid {day_accent};
+            color: {day_accent_dark};
+        }}
+        .section-close:hover {{
+            background: {day_accent_light};
+        }}
+        body.night-mode .section-close {{
+            background: #2a2a4a !important;
+            border: 2px solid {night_accent} !important;
+            color: #ddd6fe !important;
+        }}
+        body.night-mode .section-close:hover {{
+            background: #3d3d6a !important;
+        }}
+        
+        .cute-monitor {{
+            background: linear-gradient(145deg, {day_primary_lighter} 0%, #ffffff 100%) !important;
+            border-color: {day_primary} !important;
+            box-shadow: 0 8px 0 {day_primary_dark}, 0 12px 24px rgba({day_primary_rgb}, 0.2) !important;
+        }}
+        .monitor-header {{
+            background: linear-gradient(90deg, {day_primary}, {day_primary_light}, {day_primary}) !important;
+        }}
+        body.night-mode .cute-monitor {{
+            background: linear-gradient(145deg, #2a2a4a 0%, #1e1e3f 100%) !important;
+            border-color: {night_primary} !important;
+            box-shadow: 0 8px 0 {night_primary_dark}, 0 12px 24px rgba({night_primary_rgb}, 0.3) !important;
+        }}
+        body.night-mode .monitor-header {{
+            background: linear-gradient(90deg, {night_primary}, {night_primary_light}, {night_primary}) !important;
+        }}
+        body.night-mode .monitor-content {{
+            background: #1a1a2e !important;
+            border-color: #33335a !important;
+        }}
+        
+        .monitor-footer {{
+            background: linear-gradient(180deg, transparent 0%, {day_accent_lighter} 100%) !important;
+        }}
+        body.night-mode .monitor-footer {{
+            background: linear-gradient(180deg, transparent 0%, {night_accent_lighter} 100%) !important;
+        }}
+        
+        .cute-nav-btn {{
+            background: linear-gradient(135deg, {day_primary} 0%, {day_primary_light} 100%) !important;
+            border-color: {day_primary_dark} !important;
+            box-shadow: 0 4px 0 {day_primary_dark} !important;
+        }}
+        .cute-nav-btn:hover {{
+            box-shadow: 0 6px 0 {day_primary_dark} !important;
+        }}
+        .cute-nav-btn:active {{
+            box-shadow: 0 2px 0 {day_primary_dark} !important;
+        }}
+        body.night-mode .cute-nav-btn {{
+            background: linear-gradient(135deg, {night_primary} 0%, {night_primary_light} 100%) !important;
+            border-color: {night_primary_dark} !important;
+            box-shadow: 0 4px 0 {night_primary_dark} !important;
+        }}
+        body.night-mode .cute-nav-btn:hover {{
+            box-shadow: 0 6px 0 {night_primary_dark} !important;
+        }}
+        body.night-mode .cute-nav-btn:active {{
+            box-shadow: 0 2px 0 {night_primary_dark} !important;
+        }}
+        
+        .carousel-dot {{
+            border-color: {day_primary};
+        }}
+        .carousel-dot:hover {{
+            background: {day_primary_lighter};
+        }}
+        .carousel-dot.active {{
+            background: linear-gradient(135deg, {day_accent}, {day_accent_dark});
+            border-color: {day_accent_dark};
+            box-shadow: 0 0 10px rgba(0,0,0,0.15);
+        }}
+        body.night-mode .carousel-dot {{
+            border-color: {night_primary};
+        }}
+        body.night-mode .carousel-dot:hover {{
+            background: {night_primary_lighter} !important;
+        }}
+        body.night-mode .carousel-dot.active {{
+            background: linear-gradient(135deg, {night_accent}, {night_accent_dark});
+            border-color: {night_accent_dark};
+        }}
+        
+        .cute-list-item {{
+            background: linear-gradient(90deg, {day_primary_lighter} 0%, {day_primary_light} 50%, {day_primary_lighter} 100%);
+            border-left: 4px solid {day_primary};
+        }}
+        body.night-mode .cute-list-item {{
+            background: linear-gradient(90deg, #2a2a4a 0%, #3d3d6a 50%, #2a2a4a 100%) !important;
+            border-left: 4px solid {night_primary} !important;
+        }}
+        
+        .scroll-button {{
+            border-color: {day_accent} !important;
+            background: linear-gradient(135deg, {day_accent}, {day_accent_dark}) !important;
+            box-shadow: 0 6px 0 {day_accent_dark}, 0 8px 20px rgba({day_accent_rgb}, 0.35) !important;
+        }}
+        .scroll-button:hover {{
+            box-shadow: 0 10px 0 {day_accent_dark}, 0 12px 28px rgba({day_accent_rgb}, 0.45) !important;
+        }}
+        .scroll-button:active {{
+            box-shadow: 0 4px 0 {day_accent_dark}, 0 6px 12px rgba({day_accent_rgb}, 0.25) !important;
+        }}
+        .scroll-button.top {{
+            border-color: {day_primary} !important;
+            background: linear-gradient(135deg, {day_primary}, {day_primary_light}) !important;
+            box-shadow: 0 6px 0 {day_primary_dark}, 0 8px 20px rgba({day_primary_rgb}, 0.35) !important;
+        }}
+        .scroll-button.top:hover {{
+            box-shadow: 0 10px 0 {day_primary_dark}, 0 12px 28px rgba({day_primary_rgb}, 0.45) !important;
+        }}
+        body.night-mode .scroll-button {{
+            border-color: {night_accent} !important;
+            background: linear-gradient(135deg, {night_accent}, {night_accent_dark}) !important;
+            box-shadow: 0 6px 0 {night_accent_dark}, 0 8px 20px rgba({night_accent_rgb}, 0.4) !important;
+        }}
+        body.night-mode .scroll-button:hover {{
+            box-shadow: 0 10px 0 {night_accent_dark}, 0 12px 28px rgba({night_accent_rgb}, 0.5) !important;
+        }}
+        body.night-mode .scroll-button.top {{
+            border-color: {night_primary} !important;
+            background: linear-gradient(135deg, {night_primary}, {night_primary_light}) !important;
+            box-shadow: 0 6px 0 {night_primary_dark}, 0 8px 20px rgba({night_primary_rgb}, 0.4) !important;
+        }}
+        
+        .toc-button {{
+            border-color: {day_accent} !important;
+            background: linear-gradient(135deg, {day_accent}, {day_accent_dark}) !important;
+            box-shadow: 0 6px 0 {day_accent_dark}, 0 8px 20px rgba({day_accent_rgb}, 0.35) !important;
+        }}
+        .toc-button:hover {{
+            box-shadow: 0 8px 0 {day_accent_dark}, 0 12px 28px rgba({day_accent_rgb}, 0.45) !important;
+        }}
+        .toc-panel {{
+            background: #ffffff;
+            border: 2px solid {day_accent} !important;
+            box-shadow: 0 8px 0 {day_accent_dark}, 0 12px 24px rgba({day_accent_rgb}, 0.15) !important;
+        }}
+        .toc-icon {{
+            background: linear-gradient(135deg, {day_accent}, {day_accent_dark}) !important;
+        }}
+        body.night-mode .toc-button {{
+            border-color: {night_accent} !important;
+            background: linear-gradient(135deg, {night_accent}, {night_accent_dark}) !important;
+            box-shadow: 0 6px 0 {night_accent_dark}, 0 8px 20px rgba({night_accent_rgb}, 0.4) !important;
+        }}
+        body.night-mode .toc-panel {{
+            background: #1e1e3f !important;
+            border: 2px solid {night_accent} !important;
+            box-shadow: 0 8px 0 {night_accent_dark}, 0 12px 24px rgba({night_accent_rgb}, 0.25) !important;
+        }}
+        body.night-mode .toc-icon {{
+            background: linear-gradient(135deg, {night_accent}, {night_accent_dark}) !important;
+        }}
+        
+        .toc-title {{
+            color: {day_accent_dark} !important;
+            border-bottom: 2px dashed {day_accent_light} !important;
+        }}
+        .toc-item:hover {{
+            background: {day_accent_lighter} !important;
+            border-left-color: {day_accent} !important;
+        }}
+        .toc-item.active {{
+            background: {day_accent_light} !important;
+            border-left-color: {day_accent} !important;
+        }}
+        .toc-text {{
+            color: #334155 !important;
+        }}
+        body.night-mode .toc-title {{
+            color: {night_accent} !important;
+            border-bottom-color: {night_accent_light} !important;
+        }}
+        body.night-mode .toc-item:hover {{
+            background: #2a2a4a !important;
+            border-left-color: {night_accent} !important;
+        }}
+        body.night-mode .toc-item.active {{
+            background: #3d3d6a !important;
+            border-left-color: {night_accent} !important;
+        }}
+        body.night-mode .toc-text {{
+            color: #cbd5e1 !important;
+        }}
+        
+        .hobby-modal {{
+            background: linear-gradient(135deg, #ffffff 0%, {day_primary_lighter} 100%) !important;
+            border: 4px solid {day_primary} !important;
+            box-shadow: 0 20px 40px rgba({day_primary_rgb}, 0.25);
+        }}
+        .hobby-modal-header {{
+            border-bottom: 2px dashed {day_primary} !important;
+        }}
+        .hobby-modal-title {{
+            color: {day_primary_dark};
+        }}
+        .hobby-modal-content {{
+            color: {day_primary_dark};
+        }}
+        .hobby-modal-title-icon {{
+            background: linear-gradient(135deg, {day_primary}, {day_primary_light});
+        }}
+        .hobby-modal-close {{
+            background: {day_primary_lighter};
+            border-color: {day_primary};
+            color: {day_primary_dark};
+        }}
+        .hobby-modal-close:hover {{
+            background: {day_primary_light};
+        }}
+        .personality-modal {{
+            background: linear-gradient(135deg, #ffffff 0%, {day_accent_lighter} 100%) !important;
+            border: 4px solid {day_accent} !important;
+            box-shadow: 0 20px 40px rgba({day_accent_rgb}, 0.25);
+        }}
+        .personality-modal-header {{
+            border-bottom: 2px dashed {day_accent} !important;
+        }}
+        .personality-modal-title {{
+            color: {day_accent_dark};
+        }}
+        .personality-modal-content {{
+            color: {day_accent_dark};
+        }}
+        .personality-modal-title-icon {{
+            background: linear-gradient(135deg, {day_accent}, {day_accent_dark});
+        }}
+        .personality-modal-close {{
+            background: {day_accent_lighter};
+            border-color: {day_accent};
+            color: {day_accent_dark};
+        }}
+        .personality-modal-close:hover {{
+            background: {day_accent_light};
+        }}
+        body.night-mode .hobby-modal {{
+            background: linear-gradient(135deg, #2a2a4a 0%, #1e1e3f 100%) !important;
+            border: 4px solid {night_primary} !important;
+            box-shadow: 0 20px 40px rgba({night_primary_rgb}, 0.3) !important;
+        }}
+        body.night-mode .hobby-modal-header {{
+            border-bottom: 2px dashed {night_primary} !important;
+        }}
+        body.night-mode .hobby-modal-title {{
+            color: #e0e7ff !important;
+        }}
+        body.night-mode .hobby-modal-content {{
+            color: #c4b5fd !important;
+        }}
+        body.night-mode .personality-modal {{
+            background: linear-gradient(135deg, #2a2a4a 0%, #1e1e3f 100%) !important;
+            border: 4px solid {night_accent} !important;
+            box-shadow: 0 20px 40px rgba({night_accent_rgb}, 0.3) !important;
+        }}
+        body.night-mode .personality-modal-header {{
+            border-bottom: 2px dashed {night_accent} !important;
+        }}
+        body.night-mode .personality-modal-title {{
+            color: #e0e7ff !important;
+        }}
+        body.night-mode .personality-modal-content {{
+            color: #c4b5fd !important;
+        }}
+        
+        body.night-mode .hobby-modal-title-icon {{
+            background: linear-gradient(135deg, {night_primary}, {night_primary_light}) !important;
+        }}
+        body.night-mode .personality-modal-title-icon {{
+            background: linear-gradient(135deg, {night_accent}, {night_accent_dark}) !important;
+        }}
+        
+        body.night-mode .hobby-modal-close {{
+            background: #2a2a4a !important;
+            border-color: {night_primary} !important;
+            color: #cbd5e1 !important;
+        }}
+        body.night-mode .hobby-modal-close:hover {{
+            background: #3d3d6a !important;
+        }}
+        body.night-mode .personality-modal-close {{
+            background: #2a2a4a !important;
+            border-color: {night_accent} !important;
+            color: #cbd5e1 !important;
+        }}
+        body.night-mode .personality-modal-close:hover {{
+            background: #3d3d6a !important;
+        }}
+        
+        .confirm-modal {{
+            background: linear-gradient(135deg, {day_accent_lighter} 0%, {day_accent_light} 100%) !important;
+            border: 4px solid {day_accent} !important;
+            box-shadow: 0 20px 40px rgba({day_accent_rgb}, 0.3) !important;
+        }}
+        .confirm-modal h3 {{
+            color: {day_accent_dark};
+        }}
+        .confirm-btn-yes {{
+            background: linear-gradient(135deg, {day_accent}, {day_accent_dark}) !important;
+        }}
+        .confirm-btn-no {{
+            background: linear-gradient(135deg, #6b7280, #4b5563) !important;
+        }}
+        body.night-mode .confirm-modal {{
+            background: linear-gradient(135deg, #2a2a4a 0%, #1e1e3f 100%) !important;
+            border: 4px solid {night_accent} !important;
+            box-shadow: 0 20px 40px rgba({night_accent_rgb}, 0.3) !important;
+        }}
+        body.night-mode .confirm-modal h3 {{
+            color: #e0e7ff !important;
+        }}
+        body.night-mode .confirm-btn-yes {{
+            background: linear-gradient(135deg, {night_accent}, {night_accent_dark}) !important;
+        }}
+        
+        body.night-mode #lightbox .bg-white {{
+            background: linear-gradient(145deg, #1e1e3f, #2a2a4a) !important;
+        }}
+        body.night-mode #lightbox .dynamic-accent-border {{
+            border-color: {night_accent} !important;
+        }}
+        body.night-mode #lightbox .dynamic-accent-text {{
+            color: {night_accent} !important;
+        }}
+        
+        .image-error {{
+            background: linear-gradient(135deg, {day_accent_lighter}, {day_accent_light}) !important;
+            border: 3px solid {day_accent} !important;
+            color: {day_accent_dark} !important;
+        }}
+        body.night-mode .image-error {{
+            background: linear-gradient(135deg, #2a2a4a, #1e1e3f) !important;
+            border-color: {night_accent} !important;
+            color: #cbd5e1 !important;
+        }}
+        
+        .sparkle {{
+            color: {day_accent} !important;
+        }}
+        body.night-mode .sparkle {{
+            color: {night_accent} !important;
+        }}
+        
+        .paw-icon {{
+            background: linear-gradient(135deg, {day_accent}, {day_accent_dark}) !important;
+            border-color: {day_accent_dark} !important;
+            box-shadow: 0 6px 0 {day_accent_dark}, 0 8px 20px rgba({day_accent_rgb}, 0.35) !important;
+        }}
+        body.night-mode .paw-icon {{
+            background: linear-gradient(135deg, {night_accent}, {night_accent_dark}) !important;
+            border-color: {night_accent_dark} !important;
+            box-shadow: 0 6px 0 {night_accent_dark}, 0 8px 20px rgba({night_accent_rgb}, 0.4) !important;
+        }}
+        
+        .cute-divider {{
+            color: {day_accent} !important;
+        }}
+        .cute-divider::before, .cute-divider::after {{
+            background: linear-gradient(90deg, transparent, {day_accent}, transparent) !important;
+        }}
+        .cute-divider-blue {{
+            color: {day_primary} !important;
+        }}
+        .cute-divider-blue::before, .cute-divider-blue::after {{
+            background: linear-gradient(90deg, transparent, {day_primary}, transparent) !important;
+        }}
+        body.night-mode .cute-divider {{
+            color: {night_accent} !important;
+        }}
+        body.night-mode .cute-divider::before, body.night-mode .cute-divider::after {{
+            background: linear-gradient(90deg, transparent, {night_accent}, transparent) !important;
+        }}
+        body.night-mode .cute-divider-blue {{
+            color: {night_primary} !important;
+        }}
+        body.night-mode .cute-divider-blue::before, body.night-mode .cute-divider-blue::after {{
+            background: linear-gradient(90deg, transparent, {night_primary}, transparent) !important;
+        }}
+
+        .friends-group-container {{
+            border-color: {day_primary} !important;
+        }}
+        body.night-mode .friends-group-container {{
+            border-color: {night_primary} !important;
+        }}
+        body.night-mode .friend-tag {{
+            background: #1e1e3f !important;
+            border-color: {night_primary_light} !important;
+            color: {night_primary} !important;
+        }}
+        body.night-mode .friend-tag-link {{
+            background: #1e1e3f !important;
+            border-color: {night_accent_light} !important;
+            color: {night_accent} !important;
+        }}
+        .friend-tag:hover {{
+            border-color: {day_primary} !important;
+            box-shadow: 0 4px 12px rgba({day_primary_rgb}, 0.2);
+        }}
+        .friend-tag-link:hover {{
+            border-color: {day_accent} !important;
+            background: {day_accent} !important;
+            color: #ffffff !important;
+            box-shadow: 0 6px 0 {day_accent_dark}, 0 8px 16px rgba({day_accent_rgb}, 0.3);
+        }}
+        body.night-mode .friend-tag:hover {{
+            border-color: {night_primary} !important;
+            box-shadow: 0 4px 12px rgba({night_primary_rgb}, 0.25);
+        }}
+        body.night-mode .friend-tag-link:hover {{
+            border-color: {night_accent} !important;
+            background: {night_accent} !important;
+            color: #ffffff !important;
+            box-shadow: 0 6px 0 {night_accent_dark}, 0 8px 16px rgba({night_accent_rgb}, 0.35);
+        }}
+        
+        body.night-mode .box-card.bg-white {{
+            background: #1e1e3f !important;
+        }}
+        .box-card {{
+            transition: border-color 0.2s ease, box-shadow 0.3s ease;
+        }}
+        .box-card:hover {{
+            border-color: {day_primary} !important;
+            box-shadow: 0 4px 12px rgba({day_primary_rgb}, 0.15);
+        }}
+        .box-card.dynamic-accent-border-light:hover {{
+            border-color: {day_accent} !important;
+            box-shadow: 0 4px 12px rgba({day_accent_rgb}, 0.15);
+        }}
+        body.night-mode .box-card:hover {{
+            border-color: {night_primary} !important;
+            box-shadow: 0 4px 12px rgba({night_primary_rgb}, 0.2);
+        }}
+        body.night-mode .box-card.dynamic-accent-border-light:hover {{
+            border-color: {night_accent} !important;
+            box-shadow: 0 4px 12px rgba({night_accent_rgb}, 0.2);
+        }}
+
+        .info-box {{
+            background: linear-gradient(135deg, {day_accent_lighter} 0%, {day_accent_light} 100%) !important;
+            border-color: {day_accent} !important;
+            box-shadow: 0 6px 0 {day_accent_dark}, 0 8px 20px rgba({day_accent_rgb}, 0.3) !important;
+        }}
+        body.night-mode .info-box {{
+            background: linear-gradient(135deg, #2a2a4a 0%, #3d3d6a 100%) !important;
+            border-color: {night_accent} !important;
+            box-shadow: 0 6px 0 {night_accent_dark}, 0 8px 20px rgba({night_accent_rgb}, 0.35) !important;
+        }}
+        
+        body.night-mode .red-strike-item.active .red-strike-text::after {{
+            animation: night-strike-pulse 0.6s ease-in-out !important;
+        }}
+        
+        @keyframes night-strike-pulse {{
+            0% {{ box-shadow: 0 0 0 0 rgba({night_accent_rgb}, 0.7); }}
+            50% {{ box-shadow: 0 0 10px 5px rgba({night_accent_rgb}, 0.3); }}
+            100% {{ box-shadow: 0 0 0 0 rgba({night_accent_rgb}, 0); }}
         }}
     </style>
 </head>
@@ -702,10 +1383,10 @@ class HTMLGenerator:
                 <div id="avatar-container" class="moxue-avatar" onclick="spinAvatar()">
                     <img id="avatar-img" src="{avatar.get('src', '')}" alt="{avatar.get('alt', '')}" class="w-full h-full object-cover rounded-full">
                 </div>
-                <div class="absolute -top-2 -right-2 bg-yellow-400 text-white rounded-full w-10 h-10 flex items-center justify-center text-lg shadow-md animate-pulse">
+                <div class="absolute -top-2 -right-2 dynamic-accent text-white rounded-full w-10 h-10 flex items-center justify-center text-lg shadow-md animate-pulse">
                     ★
                 </div>
-                <div class="absolute -bottom-2 -left-2 bg-blue-400 text-white rounded-full w-8 h-8 flex items-center justify-center text-sm shadow-md animate-pulse" style="animation-delay: 0.5s;">
+                <div class="absolute -bottom-2 -left-2 dynamic-primary text-white rounded-full w-8 h-8 flex items-center justify-center text-sm shadow-md animate-pulse" style="animation-delay: 0.5s;">
                     ♡
                 </div>
             </div>
@@ -715,14 +1396,14 @@ class HTMLGenerator:
             </h1>
             
             <p class="text-lg text-slate-700 mb-2">
-                <i class="fa fa-star text-yellow-400 floating-star"></i>
+                <i class="fa fa-star dynamic-accent-text floating-star"></i>
                 {header.get('subtitle', '')}
-                <i class="fa fa-star text-blue-400 floating-star" style="animation-delay: 0.5s;"></i>
+                <i class="fa fa-star dynamic-primary-text floating-star" style="animation-delay: 0.5s;"></i>
             </p>
             
-            <div class="mt-4 text-sm text-blue-600 font-mono bg-white/60 inline-block px-4 py-2 rounded-full border-2 border-blue-300">
+            <div class="mt-4 text-sm dynamic-primary-text font-mono bg-white/60 inline-block px-4 py-2 rounded-full border-2 dynamic-primary-border">
                 <span id="system-time"></span>
-                <span class="typing-cursor text-yellow-500">★</span>
+                <span class="typing-cursor dynamic-accent-text">★</span>
             </div>
         </header>
         
