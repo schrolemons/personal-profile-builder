@@ -1,14 +1,15 @@
 # 个人扩列条生成器 (Skill)
 
 一键生成个人扩列条HTML页面。用户用自然语言描述自己，自动转换为精美网页。
-update:2026-6-19
-bug累积中...
+
+> 最近更新：2026-05-19 — 配色系统视觉优化、夜间模式全面修复、智能柔阴影系统
 
 ## 📦 安装方式
 
 ### 方式一：让 Agent 帮你安装（推荐）
 
 直接对 Agent 说：
+
 > "帮我安装 personal-profile-builder skill"
 
 Agent 会自动为你完成安装配置。
@@ -40,26 +41,31 @@ git clone https://github.com/schrolemons/personal-profile-builder.git
 ## 🎯 核心特点
 
 - **📝 简单配置** - 用自然语言描述即可，无需编写代码
-- **🎨 主题配色** - 支持白天/夜间双模式，自定义主题色
+- **🎨 智能配色** - 仅需 4 个基础色，自动生成所有衍生色、阴影、渐变
+- **🌈 主题柔阴影** - 所有组件阴影自动跟随主题色，色彩和谐统一
+- **🌓 双模式完善** - 白天/夜间模式全部组件均有独立适配，切换无死角
 - **📱 响应式设计** - 完美适配桌面端和移动端
-- **⚡ 丰富交互** - 轮播图、弹窗、动画效果等
-- **🔧 高度灵活** - 支持自定义板块、多种内容类型
+- **⚡ 丰富交互** - 轮播图、弹窗、动画效果、hover 反馈等
+- **🔧 高度灵活** - 支持 9 种 block 类型、自定义板块、TOC 自由排列
 
 ## 📁 文件说明
 
-| 文件 | 说明 |
-|------|------|
-| `config.json` | 参考配置模板 |
-| `generate.py` | Python 生成脚本 |
-| `basic-styles.css` | CSS 样式文件 |
-| `script.js` | JavaScript 交互文件 |
-| `README.md` | 本使用说明文档 |
+| 文件                        | 说明                                   |
+| --------------------------- | -------------------------------------- |
+| `scripts/generate.py`     | Python 生成脚本（含完整 CSS 动态生成） |
+| `assets/config.json`      | 参考配置模板                           |
+| `assets/basic-styles.css` | 基础 CSS 框架样式                      |
+| `assets/script.js`        | JavaScript 交互文件                    |
+| `README.md`               | 本使用说明文档                         |
+| `SKILL.md`                | AI Agent 工作流程说明                  |
+| `references/`             | 参考文档（配置规范、格式指南）         |
 
 ## 📖 Block 类型
 
 ### 各 Block 类型详细格式
 
 #### 1. `content` - 普通内容块
+
 ```json
 {
   "type": "content",
@@ -75,6 +81,7 @@ git clone https://github.com/schrolemons/personal-profile-builder.git
 ```
 
 #### 2. `divider` - 分割线
+
 ```json
 {
   "type": "divider",
@@ -83,6 +90,7 @@ git clone https://github.com/schrolemons/personal-profile-builder.git
 ```
 
 #### 3. `personality_group` - 性格特点组
+
 ```json
 {
   "type": "personality_group",
@@ -100,6 +108,7 @@ git clone https://github.com/schrolemons/personal-profile-builder.git
 ```
 
 #### 4. `hobby_group` - 兴趣爱好组
+
 ```json
 {
   "type": "hobby_group",
@@ -117,6 +126,7 @@ git clone https://github.com/schrolemons/personal-profile-builder.git
 ```
 
 #### 5. `red_line_group` - 雷点组
+
 ```json
 {
   "type": "red_line_group",
@@ -132,6 +142,7 @@ git clone https://github.com/schrolemons/personal-profile-builder.git
 ```
 
 #### 6. `your_red_line_group` - 可能雷到你的组
+
 ```json
 {
   "type": "your_red_line_group",
@@ -147,6 +158,7 @@ git clone https://github.com/schrolemons/personal-profile-builder.git
 ```
 
 #### 7. `external_link_group` - 外部链接组
+
 ```json
 {
   "type": "external_link_group",
@@ -164,6 +176,7 @@ git clone https://github.com/schrolemons/personal-profile-builder.git
 ```
 
 #### 8. `gallery_group` - 图片轮播图
+
 ```json
 {
   "type": "gallery_group",
@@ -180,15 +193,47 @@ git clone https://github.com/schrolemons/personal-profile-builder.git
 }
 ```
 
+#### 9. `friends_group` - 亲友展示组
+
+```json
+{
+  "type": "friends_group",
+  "icon": "💕",
+  "title": "我的亲友们",
+  "categories": [
+    {
+      "category": "好闺蜜",
+      "icon": "💖",
+      "friends": [
+        { "name": "好友A" }
+      ]
+    },
+    {
+      "category": "亲友",
+      "icon": "🌟",
+      "friends": [
+        { "name": "好友B", "url": "https://example.com" },
+        { "name": "好友C" },
+        { "name": "好友D", "url": "https://example.com" }
+      ]
+    }
+  ]
+}
+```
+
+每个朋友的 `url` 和 `avatar` 均为可选。有 `url` 时可点击跳转，无 `url` 则纯展示。
+
 ## ✨ Content 格式说明
 
 所有 content 字段都支持多种特殊格式：
 
 **高亮文本：**
+
 - `highlight(text)` 或 `highlight-accent(text)` - 强调色高亮
 - `highlight-primary(text)` - 主色调高亮
 
 **添加链接：**
+
 - `addurl(text, url)` - 添加链接
 
 ## 🎨 颜色配置说明
@@ -196,10 +241,12 @@ git clone https://github.com/schrolemons/personal-profile-builder.git
 只需设置 4 个基础颜色！
 
 **白天模式（2色）：**
+
 - `colors.day.primary` - 主色调（默认：#3b82f6）
 - `colors.day.accent` - 强调色（默认：#fbbf24）
 
 **夜间模式（2色）：**
+
 - `colors.night.primary` - 主色调（默认：#8b5cf6）
 - `colors.night.accent` - 强调色（默认：#a855f7）
 
@@ -218,6 +265,7 @@ python generate.py -c user_config.json -o output.html
 **注意：** `footer` 和 `important_warning` 这两部分是特殊的，不会出现在 toc 中。
 
 ### toc 结构
+
 ```json
 "toc": [
   {
