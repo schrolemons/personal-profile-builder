@@ -306,8 +306,8 @@ class HTMLGenerator:
                 </div>
             </a>'''
         
-        return f'''<div class="dynamic-primary-lighter rounded-2xl p-6 border-2 dynamic-accent-border">
-            <h3 class="font-bold dynamic-accent-text text-xl mb-4 flex items-center">
+        return f'''<div class="dynamic-primary-lighter rounded-2xl p-6 border-2 dynamic-primary-border">
+            <h3 class="font-bold dynamic-primary-text text-xl mb-4 flex items-center">
                 {icon_container}
                 {title}
             </h3>
@@ -425,8 +425,8 @@ class HTMLGenerator:
 
             categories_html += f'''<div class="friend-category">
                 <div class="friend-category-label">
-                    <span class="friend-category-dot dynamic-accent"></span>
-                    <span class="font-semibold dynamic-accent-text">{cat_icon_html}{cat_name}</span>
+                    <span class="friend-category-dot dynamic-primary"></span>
+                    <span class="font-semibold dynamic-primary-text">{cat_icon_html}{cat_name}</span>
                 </div>
                 <div class="friend-tags">
                     {friends_html}
@@ -678,6 +678,10 @@ class HTMLGenerator:
                     section_config['updateTag'] = True
                 sections_html += self._render_section(section_id, section_config)
         
+        final_warning_html = self._render_final_warning()
+        toc_items = self.config.get('toc', [])
+        footer_html = '' if not toc_items else self._render_footer()
+        
         html = f'''<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -743,21 +747,21 @@ class HTMLGenerator:
         }}
         
         body.night-mode .dynamic-primary {{ background: {night_primary}; }}
-        body.night-mode .dynamic-primary-light {{ background: {night_primary_light}; }}
-        body.night-mode .dynamic-primary-lighter {{ background: {night_primary_lighter}; }}
+        body.night-mode .dynamic-primary-light {{ background: #2a2a4a; }}
+        body.night-mode .dynamic-primary-lighter {{ background: #1e1e3f; }}
         body.night-mode .dynamic-primary-dark {{ background: {night_primary_dark}; }}
         body.night-mode .dynamic-primary-border {{ border-color: {night_primary}; }}
-        body.night-mode .dynamic-primary-border-light {{ border-color: {night_primary_light}; }}
-        body.night-mode .dynamic-primary-text {{ color: {night_primary}; }}
+        body.night-mode .dynamic-primary-border-light {{ border-color: #3d3d6a; }}
+        body.night-mode .dynamic-primary-text {{ color: {night_primary} !important; }}
         body.night-mode .dynamic-primary-shadow {{ box-shadow: 0 8px 0 {night_primary_dark}; }}
         
         body.night-mode .dynamic-accent {{ background: {night_accent}; }}
-        body.night-mode .dynamic-accent-light {{ background: {night_accent_light}; }}
-        body.night-mode .dynamic-accent-lighter {{ background: {night_accent_lighter}; }}
+        body.night-mode .dynamic-accent-light {{ background: #2a2a4a; }}
+        body.night-mode .dynamic-accent-lighter {{ background: #1e1e3f; }}
         body.night-mode .dynamic-accent-dark {{ background: {night_accent_dark}; }}
         body.night-mode .dynamic-accent-border {{ border-color: {night_accent}; }}
-        body.night-mode .dynamic-accent-border-light {{ border-color: {night_accent_light}; }}
-        body.night-mode .dynamic-accent-text {{ color: {night_accent}; }}
+        body.night-mode .dynamic-accent-border-light {{ border-color: #3d3d6a; }}
+        body.night-mode .dynamic-accent-text {{ color: {night_accent} !important; }}
         body.night-mode .dynamic-accent-shadow {{ box-shadow: 0 8px 0 {night_accent_dark}; }}
         
         body.night-mode .dynamic-bg-primary-gradient {{
@@ -771,31 +775,31 @@ class HTMLGenerator:
         }}
         
         body.night-mode .highlight-primary {{
-            background: linear-gradient(120deg, {night_primary_lighter} 0%, {night_primary_light} 100%) !important;
-            color: #fecaca !important;
+            background: linear-gradient(120deg, rgba({night_primary_rgb}, 0.12) 0%, rgba({night_primary_rgb}, 0.22) 100%) !important;
+            color: {night_primary} !important;
         }}
         
         body.night-mode .highlight-accent {{
-            background: linear-gradient(120deg, {night_accent_lighter} 0%, {night_accent_light} 100%) !important;
-            color: #cffafe !important;
+            background: linear-gradient(120deg, rgba({night_accent_rgb}, 0.12) 0%, rgba({night_accent_rgb}, 0.22) 100%) !important;
+            color: {night_accent} !important;
         }}
         
         body.night-mode .highlight-blue {{
-            background: linear-gradient(120deg, {night_primary_lighter} 0%, {night_primary_light} 100%) !important;
-            color: #fecaca !important;
+            background: linear-gradient(120deg, rgba({night_primary_rgb}, 0.12) 0%, rgba({night_primary_rgb}, 0.22) 100%) !important;
+            color: {night_primary} !important;
         }}
         
         body.night-mode .highlight-yellow {{
-            background: linear-gradient(120deg, {night_accent_lighter} 0%, {night_accent_light} 100%) !important;
-            color: #cffafe !important;
+            background: linear-gradient(120deg, rgba({night_accent_rgb}, 0.12) 0%, rgba({night_accent_rgb}, 0.22) 100%) !important;
+            color: {night_accent} !important;
         }}
         
         body.night-mode .highlight-green,
         body.night-mode .highlight-purple,
         body.night-mode .highlight-orange,
         body.night-mode .highlight-pink {{
-            background: linear-gradient(120deg, {night_accent_lighter} 0%, {night_accent_light} 100%) !important;
-            color: #e0e7ff !important;
+            background: linear-gradient(120deg, rgba({night_accent_rgb}, 0.12) 0%, rgba({night_accent_rgb}, 0.22) 100%) !important;
+            color: {night_accent} !important;
         }}
         
         body.night-mode .sparkle {{
@@ -814,7 +818,7 @@ class HTMLGenerator:
             background: {night_accent} !important;
         }}
         
-        .dynamic-accent-lighter-night {{ background: {night_accent_lighter}; }}
+        .dynamic-accent-lighter-night {{ background: #1e1e3f; }}
         
         .cute-card {{
             background: linear-gradient(145deg, #ffffff 0%, {day_accent_ultralight} 100%);
@@ -948,7 +952,7 @@ class HTMLGenerator:
             background: linear-gradient(180deg, transparent 0%, {day_accent_lighter} 100%) !important;
         }}
         body.night-mode .monitor-footer {{
-            background: linear-gradient(180deg, transparent 0%, {night_accent_lighter} 100%) !important;
+            background: linear-gradient(180deg, transparent 0%, rgba({night_accent_rgb}, 0.08) 100%) !important;
         }}
         
         .cute-nav-btn {{
@@ -989,7 +993,7 @@ class HTMLGenerator:
             border-color: {night_primary};
         }}
         body.night-mode .carousel-dot:hover {{
-            background: {night_primary_lighter} !important;
+            background: #3d3d6a !important;
         }}
         body.night-mode .carousel-dot.active {{
             background: linear-gradient(135deg, {night_accent}, {night_accent_dark});
@@ -1085,7 +1089,7 @@ class HTMLGenerator:
         }}
         body.night-mode .toc-title {{
             color: {night_accent} !important;
-            border-bottom-color: {night_accent_light} !important;
+            border-bottom-color: #3d3d6a !important;
         }}
         body.night-mode .toc-item:hover {{
             background: #2a2a4a !important;
@@ -1158,10 +1162,10 @@ class HTMLGenerator:
             border-bottom: 2px dashed {night_primary} !important;
         }}
         body.night-mode .hobby-modal-title {{
-            color: #e0e7ff !important;
+            color: {night_primary} !important;
         }}
         body.night-mode .hobby-modal-content {{
-            color: #c4b5fd !important;
+            color: #cbd5e1 !important;
         }}
         body.night-mode .personality-modal {{
             background: linear-gradient(135deg, #2a2a4a 0%, #1e1e3f 100%) !important;
@@ -1172,10 +1176,10 @@ class HTMLGenerator:
             border-bottom: 2px dashed {night_accent} !important;
         }}
         body.night-mode .personality-modal-title {{
-            color: #e0e7ff !important;
+            color: {night_accent} !important;
         }}
         body.night-mode .personality-modal-content {{
-            color: #c4b5fd !important;
+            color: #cbd5e1 !important;
         }}
         
         body.night-mode .hobby-modal-title-icon {{
@@ -1305,7 +1309,7 @@ class HTMLGenerator:
         }}
         body.night-mode .friend-tag-link {{
             background: #1e1e3f !important;
-            border-color: {night_accent_light} !important;
+            border-color: #3d3d6a !important;
             color: {night_accent} !important;
         }}
         .friend-tag:hover {{
@@ -1409,9 +1413,9 @@ class HTMLGenerator:
         
         <div class="space-y-8">
             {sections_html}
-            {self._render_final_warning()}
+            {final_warning_html}
         </div>
-        {self._render_footer()}
+        {footer_html}
     </div>
     {self._render_modals()}
     <div class="cute-toc-container">
