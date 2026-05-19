@@ -13,10 +13,10 @@
         }
         
         /* 夜间模式的文字颜色调整 */
-        body.night-mode h1, body.night-mode h2, body.night-mode h3, 
-        body.night-mode h4, body.night-mode p, body.night-mode li,
-        body.night-mode .text-slate-700 {
-            color: #e0e7ff !important;
+        body.night-mode p, body.night-mode li,
+        body.night-mode .text-slate-700,
+        body.night-mode .text-slate-600 {
+            color: #cbd5e1;
         }
         
         body.night-mode .text-yellow-700, body.night-mode .text-blue-700 {
