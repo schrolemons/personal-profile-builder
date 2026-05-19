@@ -1,90 +1,195 @@
-# 个人扩列条模板系统
+# 个人扩列条生成器 (Skill)
 
-一个功能强大、易于定制的个人扩列条模板系统，通过简单的 JSON 配置即可创建精美的个人主页。
+一键生成个人扩列条HTML页面。用户用自然语言描述自己，自动转换为精美网页。
+
+## 📦 安装方式
+
+### 方式一：让 Agent 帮你安装（推荐）
+
+直接对 Agent 说：
+> "帮我安装 personal-profile-builder skill"
+
+Agent 会自动为你完成安装配置。
+
+### 方式二：Git 方式安装
+
+```bash
+# 1. 克隆或下载这个 skill 到你的 skills 目录
+cd your-project/.trae/skills
+git clone <repository-url> personal-profile-builder
+
+# 2. 重启你的 Agent，skill 就会自动加载
+```
+
+## 🚀 使用方法
+
+### 快速开始
+
+直接告诉 Agent 你想要什么样的扩列条，例如：
+
+> "帮我生成一个个人扩列条，我叫墨薛，是一只大尾巴、白毛异瞳的黄色小狼，来自虹九宇宙，喜欢鼓捣网站和世界观"
+
+### 使用流程
+
+1. **描述需求** - 用自然语言告诉 Agent 你的信息
+2. **补充信息** - Agent 会询问缺失的必要信息（头像、主题色等）
+3. **生成页面** - 自动生成精美的 HTML 页面
 
 ## 🎯 核心特点
 
-- **📝 简单配置** - 通过 JSON 文件即可完成所有内容和样式的定制，无需编写代码
-- **🎨 主题配色** - 支持白天/夜间双模式，仅需配置 4 个基础颜色即可自动生成完整配色方案
-- **📱 响应式设计** - 完美适配桌面端和移动端，提供一致的用户体验
-- **⚡ 丰富交互** - 包含轮播图、弹窗、动画效果等多种交互功能
-- **🔧 高度灵活** - 支持自定义板块、多种内容类型、自由排列组合
-- **🧠 LLM集成** - 支持自然语言输入，自动转换为配置格式
+- **📝 简单配置** - 用自然语言描述即可，无需编写代码
+- **🎨 主题配色** - 支持白天/夜间双模式，自定义主题色
+- **📱 响应式设计** - 完美适配桌面端和移动端
+- **⚡ 丰富交互** - 轮播图、弹窗、动画效果等
+- **🔧 高度灵活** - 支持自定义板块、多种内容类型
 
-## ✨ 功能亮点
-
-- 🎨 **图标自由** - 所有图标支持 Font Awesome 和 Emoji 两种格式
-- 🖼️ **多图轮播** - 支持在任意位置添加多个独立的图片轮播图
-- ✨ **动态高亮** - 高亮样式自动基于主题色生成，支持主色和强调色两种
-- 🔐 **预留彩蛋** - 支持暗号词功能，重要内容仅对"有耐心"的用户显示
-- 🛡️ **优雅降级** - 配置缺失时自动使用默认值
-
----
-
-## 文件说明
+## 📁 文件说明
 
 | 文件 | 说明 |
 |------|------|
-| `config.json` | 参考配置文件（提供默认值和完整结构） |
-| `generate.py` | Python脚本（运行此脚本来生成最终的 HTML） |
-| `basic-styles.css` | CSS样式文件（框架样式和主题定义） |
-| `script.js` | JavaScript文件（交互功能） |
-| `output.html` | 生成的最终 HTML 文件 |
-| `README.md` | 使用说明文档 |
-| `MODIFICATIONS.md` | 系统修改记录文档 |
+| `config.json` | 参考配置模板 |
+| `generate.py` | Python 生成脚本 |
+| `basic-styles.css` | CSS 样式文件 |
+| `script.js` | JavaScript 交互文件 |
+| `README.md` | 本使用说明文档 |
 
-## 使用方法
+## 📖 Block 类型
 
-### 1. 编辑配置文件
+### 各 Block 类型详细格式
 
-创建 `user_config.json` 文件，根据需要修改各项配置。**无需提供所有字段**，缺失字段会自动使用 `config.json` 中的默认值。
-
-### 2. 运行脚本生成 HTML
-
-```bash
-python generate.py -c user_config.json -r config.json -o output.html
-```
-
-### 3. 查看结果
-
-脚本会生成 `output.html` 文件，你可以用任何浏览器打开查看效果。
-
-## 目录（TOC）配置说明
-
-目录定义网站中出现的大板块（卡片）的列表，包括它们的顺序、标题和图标。
-
-**注意：** `footer` 和 `important_warning` 这两部分是特殊的，不会出现在 toc 中。
-
-### toc 结构
-
+#### 1. `content` - 普通内容块
 ```json
-"toc": [
-    {
-        "id": "overview",
-        "title": "概述",
-        "icon": "fa-star"
-    },
-    {
-        "id": "friendship",
-        "title": "个人扩列条",
-        "icon": "fa-heart"
-    }
-]
+{
+  "type": "content",
+  "icon": "fa-star",           // 图标（Font Awesome 或 Emoji）
+  "title": "标题",            // 块标题
+  "content": "内容文本",      // 内容（支持 highlight 和 addurl 格式）
+  "intro_link": {             // 可选，底部链接
+    "icon": "fa-file-text-o",
+    "title": "链接标题",
+    "url": "https://example.com"
+  }
+}
 ```
 
-### 添加自定义板块
+#### 2. `divider` - 分割线
+```json
+{
+  "type": "divider",
+  "icon": "fa-heart"          // 分割线中间的图标
+}
+```
 
-1. 在 `toc` 中添加新的条目，设置唯一的 `id`
-2. 在配置中添加一个与 id 同名的配置对象，包含 blocks 数组
+#### 3. `personality_group` - 性格特点组
+```json
+{
+  "type": "personality_group",
+  "icon": "fa-star",
+  "title": "性格特点",
+  "items": [
+    {
+      "icon": "fa-feather",   // 项目图标
+      "title": "性格特质1",   // 特质标题
+      "subtitle": "简要描述", // 副标题
+      "description": "详细描述" // 详细描述（点击弹窗显示）
+    }
+  ]
+}
+```
 
-## 配置合并规则
+#### 4. `hobby_group` - 兴趣爱好组
+```json
+{
+  "type": "hobby_group",
+  "icon": "fa-heart",
+  "title": "兴趣爱好",
+  "items": [
+    {
+      "icon": "🎮",           // 项目图标（Emoji 或 Font Awesome）
+      "title": "爱好1",       // 爱好标题
+      "subtitle": "爱好描述", // 副标题
+      "description": "详细描述" // 详细描述（点击弹窗显示）
+    }
+  ]
+}
+```
 
-1. **用户配置优先**：用户提供的字段会覆盖参考配置
-2. **递归合并**：嵌套对象会递归合并，保留双方的键
-3. **列表处理**：用户提供列表则使用用户的，否则使用参考配置
-4. **自动生成**：夜间模式颜色会根据白天模式自动计算
+#### 5. `red_line_group` - 雷点组
+```json
+{
+  "type": "red_line_group",
+  "icon": "fa-times-circle",
+  "title": "雷点",
+  "items": [
+    {
+      "icon": "fa-exclamation-triangle",
+      "content": "雷点内容"    // 内容（支持 highlight 和 addurl 格式）
+    }
+  ]
+}
+```
 
-## 颜色配置说明
+#### 6. `your_red_line_group` - 可能雷到你的组
+```json
+{
+  "type": "your_red_line_group",
+  "icon": "fa-lightbulb-o",
+  "title": "可能雷到你的",
+  "items": [
+    {
+      "icon": "fa-info-circle",
+      "content": "内容"        // 内容（支持 highlight 和 addurl 格式）
+    }
+  ]
+}
+```
+
+#### 7. `external_link_group` - 外部链接组
+```json
+{
+  "type": "external_link_group",
+  "icon": "fa-external-link",
+  "title": "外部链接",
+  "items": [
+    {
+      "icon": "fa-globe",
+      "title": "链接标题",
+      "subtitle": "example.com",
+      "url": "https://example.com"
+    }
+  ]
+}
+```
+
+#### 8. `gallery_group` - 图片轮播图
+```json
+{
+  "type": "gallery_group",
+  "icon": "fa-picture-o",
+  "title": "图片分享",
+  "gallery_title": "图片展示集合",
+  "slides": [
+    {
+      "src": "https://example.com/image.jpg",
+      "alt": "图片描述",
+      "caption": "图片标题"
+    }
+  ]
+}
+```
+
+## ✨ Content 格式说明
+
+所有 content 字段都支持多种特殊格式：
+
+**高亮文本：**
+- `highlight(text)` 或 `highlight-accent(text)` - 强调色高亮
+- `highlight-primary(text)` - 主色调高亮
+
+**添加链接：**
+- `addurl(text, url)` - 添加链接
+
+## 🎨 颜色配置说明
 
 只需设置 4 个基础颜色！
 
@@ -96,55 +201,41 @@ python generate.py -c user_config.json -r config.json -o output.html
 - `colors.night.primary` - 主色调（默认：#8b5cf6）
 - `colors.night.accent` - 强调色（默认：#a855f7）
 
-## 通用配置说明
+## 🛠️ 手动使用
 
-通过 toc 配置的所有板块都支持任意数量的 blocks。
-
-### block 类型：
-
-- **`type: "content"`** - 普通内容块
-- **`type: "divider"`** - 分割线
-- **`type: "personality_group"`** - 性格特点组
-- **`type: "hobby_group"`** - 兴趣爱好组
-- **`type: "red_line_group"`** - 雷点组
-- **`type: "your_red_line_group"`** - 可能雷到你的组
-- **`type: "external_link_group"`** - 外部链接组
-- **`type: "gallery_group"`** - 图片轮播图
-
-## Content 格式说明
-
-所有 content 字段都支持多种特殊格式：
-
-**高亮文本：**
-- `highlight(text)` 或 `highlight-accent(text)` - 强调色高亮
-- `highlight-primary(text)` - 主色调高亮
-
-**添加链接：**
-- `addurl(text, url)` - 添加链接
-
-## CLI 参数
+如果你想手动运行生成脚本：
 
 ```bash
-python generate.py --help
+python generate.py -c user_config.json -o output.html
 ```
 
-| 参数 | 缩写 | 说明 | 默认值 |
-|------|------|------|--------|
-| `--config` | `-c` | 用户配置JSON文件路径 | `user_config.json` |
-| `--reference` | `-r` | 参考配置JSON文件路径 | `config.json` |
-| `--output` | `-o` | 输出HTML文件路径 | `output.html` |
+## 📚 目录（TOC）配置说明
 
-## 注意事项
+目录定义网站中出现的大板块（卡片）的列表，包括它们的顺序、标题和图标。
 
-- 用户无需提供所有字段，缺失字段自动使用参考配置的默认值
-- 雷点、可能雷到你的等字段为可选，不提供则不显示对应板块
-- 头像链接为空时会使用默认头像生成服务
-- 暗号词为空时不会显示重要提示板块
-- toc 中的板块 id 需要与配置对象名称一致
+**注意：** `footer` 和 `important_warning` 这两部分是特殊的，不会出现在 toc 中。
 
-## 技术要求
+### toc 结构
+```json
+"toc": [
+  {
+    "id": "overview",
+    "title": "概述",
+    "icon": "fa-star"
+  },
+  {
+    "id": "friendship",
+    "title": "个人扩列条",
+    "icon": "fa-heart"
+  }
+]
+```
+
+## 🔧 技术要求
 
 - Python 3.x
 - 任何现代浏览器
 
-祝你创建自己的扩列条愉快！
+---
+
+**祝你创建自己的扩列条愉快！** 🎉
