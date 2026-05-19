@@ -51,7 +51,7 @@ personal-profile-builder/
 - display包含version（默认"2.0"）和update_date（默认当前年份）
 
 **重要：Content内容格式化规则：**
-1. 自动识别"重点"：如网站名、重要概念、关键信息，使用 `highlight(关键词)` 或 `highlight-accent(关键词)` 或 `highlight-primary(关键词)`
+1. 自动识别"重点"：如网站名、重要概念、关键信息，使用 `highlight(关键词)` 或 `highlight-accent(关键词)` 或 `highlight-primary(关键词)`。绝对不要在非`content`字段内包含`highlight`或`addurl`。
 2. 自动识别"链接"：所有网址链接自动使用 `addurl(链接文字, 网址链接)` 格式
 3. 示例：
    ```
