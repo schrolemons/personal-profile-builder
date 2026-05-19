@@ -395,6 +395,7 @@ function closeConfirmModal(event) {
 function checkAllClosed() {
     const sectionIds = window.__config.sectionIds || [];
     const warning = document.getElementById('final-warning');
+    const footer = document.querySelector('footer');
     
     let allClosed = true;
     sectionIds.forEach(id => {
@@ -406,6 +407,9 @@ function checkAllClosed() {
     
     if (allClosed && warning) {
         warning.classList.add('active');
+        if (footer) {
+            footer.style.display = 'none';
+        }
     }
 }
 
