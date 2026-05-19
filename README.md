@@ -1,6 +1,8 @@
 # 个人扩列条生成器 (Skill)
 
 一键生成个人扩列条HTML页面。用户用自然语言描述自己，自动转换为精美网页。
+update:2026-6-19
+bug累积中...
 
 ## 📦 安装方式
 
@@ -16,7 +18,7 @@ Agent 会自动为你完成安装配置。
 ```bash
 # 1. 克隆或下载这个 skill 到你的 skills 目录
 cd your-project/.trae/skills
-git clone <repository-url> personal-profile-builder
+git clone https://github.com/schrolemons/personal-profile-builder.git
 
 # 2. 重启你的 Agent，skill 就会自动加载
 ```
