@@ -1,0 +1,298 @@
+{
+    "page_title": "个人扩列条页面标题",
+    "toc": [
+        {
+            "id": "overview",
+            "title": "概述",
+            "icon": "fa-star"
+        },
+        {
+            "id": "friendship",
+            "title": "个人扩列条",
+            "icon": "fa-heart"
+        },
+        {
+            "id": "personal_media",
+            "title": "个人媒体",
+            "icon": "fa-picture-o"
+        }
+    ],
+    "colors": {
+        "day": {
+            "primary": "#3b82f6",
+            "accent": "#fbbf24"
+        },
+        "night": {
+            "primary": "#8b5cf6",
+            "accent": "#a855f7"
+        }
+    },
+    "avatar": {
+        "src": "https://www.example.com",
+        "alt": "用户头像描述"
+    },
+    "header": {
+        "title": "个人扩列条标题示例",
+        "subtitle": "个人简介副标题示例"
+    },
+    "display": {
+        "clock_enabled": true,
+        "version": "2.0",
+        "powered_by": "第九边缘SCHNIE",
+        "secret_word": "SECRET_WORD_EXAMPLE",
+        "update_date": "0000"
+    },
+    "overview": {
+        "closing_text": "结束语示例",
+        "closing_icon": "fa-heart",
+        "blocks": [
+            {
+                "type": "content",
+                "icon": "fa-paw",
+                "title": "性格描述",
+                "content": "此处描述用户性格特点的内容"
+            },
+            {
+                "type": "divider",
+                "icon": "fa-heart"
+            },
+            {
+                "type": "content",
+                "icon": "fa-star",
+                "title": "爱好描述",
+                "content": "此处描述用户兴趣爱好的内容"
+            }
+        ]
+    },
+    "friendship": {
+        "blocks": [
+            {
+                "type": "content",
+                "icon": "fa-star",
+                "title": "OC介绍",
+                "content": "各位聚聚们好！这里是highlight-accent(墨薛)呀，是一只highlight-accent(大尾巴、白毛异瞳的黄色小狼)～来自highlight-primary(虹九宇宙)，暂时外显于highlight-primary(文明塔中的地球层)。我有着highlight-accent(完整且宏大的世界设定、背景故事)，如果对我感兴趣，欢迎访问小故事链接：addurl(world.sch-nie.com,https://world.sch-nie.com)"
+            },
+            {
+                "type": "divider",
+                "icon": "fa-user"
+            },
+            {
+                "type": "content",
+                "icon": "fa-user",
+                "title": "本体介绍",
+                "content": "此处描述用户本体信息，包含highlight(高亮文本示例)等内容",
+                "intro_link": {
+                    "icon": "fa-file-text-o",
+                    "title": "个人简历",
+                    "url": "https://www.example.com"
+                }
+            },
+            {
+                "type": "divider",
+                "icon": "fa-brain"
+            },
+            {
+                "type": "personality_group",
+                "icon": "fa-star",
+                "title": "性格特点",
+                "items": [
+                    {
+                        "icon": "fa-feather",
+                        "title": "性格特质1",
+                        "subtitle": "简要描述",
+                        "description": "对该性格特质的详细描述"
+                    },
+                    {
+                        "icon": "fa-crosshairs",
+                        "title": "性格特质2",
+                        "subtitle": "简要描述",
+                        "description": "对该性格特质的详细描述"
+                    },
+                    {
+                        "icon": "fa-heart",
+                        "title": "性格特质3",
+                        "subtitle": "简要描述",
+                        "description": "对该性格特质的详细描述"
+                    },
+                    {
+                        "icon": "fa-cog",
+                        "title": "性格特质4",
+                        "subtitle": "简要描述",
+                        "description": "对该性格特质的详细描述"
+                    }
+                ]
+            },
+            {
+                "type": "divider",
+                "icon": "fa-heart"
+            },
+            {
+                "type": "hobby_group",
+                "icon": "fa-heart",
+                "title": "兴趣爱好",
+                "items": [
+                    {
+                        "icon": "🎮",
+                        "title": "爱好1",
+                        "subtitle": "爱好1描述",
+                        "description": "对该爱好的描述"
+                    },
+                    {
+                        "icon": "💬",
+                        "title": "爱好2",
+                        "subtitle": "爱好2描述",
+                        "description": "对该爱好的描述"
+                    },
+                    {
+                        "icon": "💻",
+                        "title": "爱好3",
+                        "subtitle": "爱好3描述",
+                        "description": "对该爱好的描述"
+                    },
+                    {
+                        "icon": "✍️",
+                        "title": "爱好4",
+                        "subtitle": "爱好4描述",
+                        "description": "对该爱好的描述"
+                    },
+                    {
+                        "icon": "🧠",
+                        "title": "爱好5",
+                        "subtitle": "爱好5描述",
+                        "description": "对该爱好的描述"
+                    },
+                    {
+                        "icon": "🎨",
+                        "title": "爱好6",
+                        "subtitle": "爱好6描述",
+                        "description": "对该爱好的描述"
+                    }
+                ]
+            },
+            {
+                "type": "divider",
+                "icon": "fa-times-circle"
+            },
+            {
+                "type": "red_line_group",
+                "icon": "fa-times-circle",
+                "title": "雷点",
+                "items": [
+                    {
+                        "icon": "fa-exclamation-triangle",
+                        "content": "雷点内容示例1"
+                    },
+                    {
+                        "icon": "fa-exclamation-triangle",
+                        "content": "雷点内容示例2"
+                    },
+                    {
+                        "icon": "fa-exclamation-triangle",
+                        "content": "雷点内容示例3"
+                    },
+                    {
+                        "icon": "fa-exclamation-triangle",
+                        "content": "雷点内容示例4"
+                    }
+                ]
+            },
+            {
+                "type": "divider",
+                "icon": "fa-lightbulb-o"
+            },
+            {
+                "type": "your_red_line_group",
+                "icon": "fa-lightbulb-o",
+                "title": "可能雷到你的",
+                "items": [
+                    {
+                        "icon": "fa-info-circle",
+                        "content": "可能引起不适的点示例1"
+                    },
+                    {
+                        "icon": "fa-info-circle",
+                        "content": "可能引起不适的点示例2"
+                    },
+                    {
+                        "icon": "fa-info-circle",
+                        "content": "可能引起不适的点示例3"
+                    },
+                    {
+                        "icon": "fa-info-circle",
+                        "content": "可能引起不适的点示例4"
+                    }
+                ]
+            }
+        ]
+    },
+    "personal_media": {
+        "blocks": [
+            {
+                "type": "external_link_group",
+                "icon": "fa-external-link",
+                "title": "外部链接",
+                "items": [
+                    {
+                        "icon": "fa-globe",
+                        "title": "链接标题1",
+                        "subtitle": "example.com",
+                        "url": "https://www.example.com"
+                    },
+                    {
+                        "icon": "fa-file-text-o",
+                        "title": "链接标题2",
+                        "subtitle": "example.com",
+                        "url": "https://www.example.com"
+                    }
+                ]
+            },
+            {
+                "type": "divider",
+                "icon": "fa-heart"
+            },
+            {
+                "type": "gallery_group",
+                "icon": "fa-picture-o",
+                "title": "图片分享",
+                "gallery_title": "图片展示集合",
+                "slides": [
+                    {
+                        "src": "https://www.example.com",
+                        "alt": "图片描述1",
+                        "caption": "P1 - 图片标题1"
+                    },
+                    {
+                        "src": "https://www.example.com",
+                        "alt": "图片描述2",
+                        "caption": "P2 - 图片标题2"
+                    },
+                    {
+                        "src": "https://www.example.com",
+                        "alt": "图片描述3",
+                        "caption": "P3 - 图片标题3"
+                    }
+                ]
+            }
+        ]
+    },
+    "important_warning": {
+        "blocks": [
+            {
+                "type": "content",
+                "icon": "fa-info-circle",
+                "title": "重要提示",
+                "content": "重要提示内容示例，包含{{secret_word}}占位符"
+            }
+        ]
+    },
+    "footer": {
+        "blocks": [
+            {
+                "content": "附录-链接示例：addurl(example.com,https://www.example.com)"
+            },
+            {
+                "content": "附录-链接示例：addurl(example.com,https://www.example.com)"
+            }
+        ]
+    }
+}
